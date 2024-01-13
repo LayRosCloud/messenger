@@ -1,0 +1,209 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: betrayal
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: varchar(200)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: status
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: date_registration
+                  type: date
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: smallint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+        - createTable:
+            tableName: conversations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_url
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created
+                  type: date
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: participants
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: conversation_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_participants_conversations
+                    references: conversations(id)
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_participants_users
+                    references: users(id)
+              - column:
+                  name: created
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: smallint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_participants_roles
+                    references: roles(id)
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: participant_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_messages_participants
+                    references: participants(id)
+              - column:
+                  name: message
+                  type: varchar(5000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: audio_url
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: video_url
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: has_images
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: has_files
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: date
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: images
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: message_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_images_messages
+                    references: messages(id)
+              - column:
+                  name: url
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: files
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: message_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_files_messages
+                    references: files(id)
+              - column:
+                  name: url
+                  type: varchar(100)
+                  constraints:
+                    nullable: false

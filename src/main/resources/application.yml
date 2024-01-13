@@ -1,0 +1,33 @@
+
+
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+  error:
+    include-message: always
+
+jwt:
+  secret: 1a247f12-3ff4-4c75-a18d-165affead230
+  lifetime: 30m
+spring:
+  jpa:
+    show-sql: true
+    database: postgresql
+  datasource:
+    username: admin
+    password: 551617
+    url: jdbc:postgresql://127.0.0.1:5432/messenger
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    password: 551617
+    user: admin
+    url: jdbc:postgresql://127.0.0.1:5432/messenger
+    driver-class-name: org.postgresql.Driver
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
